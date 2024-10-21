@@ -1,0 +1,30 @@
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
+             version="3.1">
+
+    <persistence-unit name="my-persistence-unit" transaction-type="RESOURCE_LOCAL">
+        <!-- Provider configuration -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Entities -->
+        <class>com.coherentsolutions.advanced.java.entities.Product</class>
+        <class>com.coherentsolutions.advanced.java.entities.Customer</class>
+
+        <!-- JDBC and Hibernate properties -->
+        <properties>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/AJA-JPA"/>
+            <property name="jakarta.persistence.jdbc.user" value="bestuser"/>
+            <property name="jakarta.persistence.jdbc.password" value="bestuser"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+
+            <!-- Enable statistics -->
+            <property name="hibernate.generate_statistics" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
