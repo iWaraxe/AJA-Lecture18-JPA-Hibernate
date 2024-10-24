@@ -17,6 +17,7 @@ public class Course {
             name = "student_courses",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
+
     private List<Student> students;
 
     public Course() {}

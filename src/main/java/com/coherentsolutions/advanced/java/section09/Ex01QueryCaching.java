@@ -1,6 +1,8 @@
 package com.coherentsolutions.advanced.java.section09;
 
 import com.coherentsolutions.advanced.java.entities.Customer;
+import com.coherentsolutions.advanced.java.utils.CustomerDataGenerator;
+import com.coherentsolutions.advanced.java.utils.SampleDataInserter; // Import your data inserter
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -13,7 +15,14 @@ public class Ex01QueryCaching {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
         EntityManager em = emf.createEntityManager();
 
-        // Begin transaction
+        // Insert sample data if there are no customers already
+        em.getTransaction().begin();
+        if (em.createQuery("SELECT c FROM Customer c", Customer.class).getResultList().isEmpty()) {
+            CustomerDataGenerator.insertSampleCustomersWithOrders(em,1000,3);
+        }
+        em.getTransaction().commit();
+
+        // Begin transaction for query caching demonstration
         em.getTransaction().begin();
 
         // First time: Query results are fetched from the database
@@ -23,10 +32,8 @@ public class Ex01QueryCaching {
 
         System.out.println("Customers fetched from the database: " + customers.size());
 
-        // Commit transaction
+        // Commit transaction and close
         em.getTransaction().commit();
-
-        // Close EntityManager
         em.close();
 
         // Start a new session to demonstrate query caching
@@ -40,6 +47,7 @@ public class Ex01QueryCaching {
 
         System.out.println("Customers fetched from cache: " + cachedCustomers.size());
 
+        // Commit and close
         em.getTransaction().commit();
         em.close();
         emf.close();

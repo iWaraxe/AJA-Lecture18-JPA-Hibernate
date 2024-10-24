@@ -52,10 +52,11 @@ public class BiCourse {
 
     @Override
     public String toString() {
-        return "Course{" +
+        // Avoid printing the full list of students to prevent recursive calls
+        return "BiCourse{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", students=" + biStudents +
+                ", studentCount=" + biStudents.size() +  // Print the number of students instead of the full list
                 '}';
     }
 }

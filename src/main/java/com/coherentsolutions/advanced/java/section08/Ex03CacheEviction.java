@@ -1,6 +1,7 @@
 package com.coherentsolutions.advanced.java.section08;
 
 import com.coherentsolutions.advanced.java.entities.Customer;
+import com.coherentsolutions.advanced.java.utils.SampleDataInserter;
 import jakarta.persistence.Cache;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -12,6 +13,11 @@ public class Ex03CacheEviction {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
         EntityManager em = emf.createEntityManager();
         Cache cache = emf.getCache();
+
+        // Insert sample data if necessary
+        em.getTransaction().begin();
+        SampleDataInserter.insertSampleCustomer(em);
+        em.getTransaction().commit();
 
         // Begin transaction
         em.getTransaction().begin();

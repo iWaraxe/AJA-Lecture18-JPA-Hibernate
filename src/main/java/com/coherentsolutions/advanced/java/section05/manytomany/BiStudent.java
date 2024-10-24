@@ -18,7 +18,7 @@ public class BiStudent {
 
     @ManyToMany
     @JoinTable(
-            name = "student_courses",
+            name = "bistudent_bicourses",
             joinColumns = @JoinColumn(name = "bistudent_id"),
             inverseJoinColumns = @JoinColumn(name = "bicourse_id")
     )
@@ -63,16 +63,17 @@ public class BiStudent {
         return biCourses;
     }
 
-    public void setCourses(List<BiCourse> bicourses) {
-        this.biCourses = bicourses;
+    public void setCourses(List<BiCourse> biCourses) {
+        this.biCourses = biCourses;
     }
 
     @Override
     public String toString() {
-        return "Student{" +
+        // Avoid printing the full list of courses to prevent recursive calls
+        return "BiStudent{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", courses=" + biCourses +
+                ", courseCount=" + biCourses.size() +  // Print the number of courses instead of the full list
                 '}';
     }
 }

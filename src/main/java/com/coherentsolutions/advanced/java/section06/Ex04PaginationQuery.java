@@ -1,6 +1,7 @@
 package com.coherentsolutions.advanced.java.section06;
 
 import com.coherentsolutions.advanced.java.entities.Customer;
+import com.coherentsolutions.advanced.java.utils.CustomerDataGenerator;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -20,6 +21,11 @@ public class Ex04PaginationQuery {
         // Begin transaction
         em.getTransaction().begin();
 
+        // Insert sample customers if the table is empty
+        if (em.createQuery("SELECT c FROM Customer c").getResultList().isEmpty()) {
+            CustomerDataGenerator.insertSampleCustomersWithOrders(em,100, 10);  // Call to the new generator
+        }
+
         // JPQL Query to fetch all customers
         String jpql = "SELECT c FROM Customer c";
         Query query = em.createQuery(jpql);
@@ -33,7 +39,7 @@ public class Ex04PaginationQuery {
         List<Customer> customers = query.getResultList();
         while (!customers.isEmpty()) {
             for (Customer customer : customers) {
-                System.out.println("Customer: " + customer.getName());
+                System.out.println("Customer: " + customer.getName() + ", Address: " + customer.getAddress().getStreet());
             }
 
             // Move to next page
